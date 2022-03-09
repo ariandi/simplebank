@@ -1,0 +1,44 @@
+-- name: CreateEntry :one
+INSERT INTO entries (
+    account_id,
+    amount
+) VALUES (
+    $1, $2
+) RETURNING *;
+
+-- name: GetEntry :one
+SELECT
+    id,
+    account_id,
+    amount,
+    created_at
+FROM
+    entries
+WHERE
+    id = $1 LIMIT 1;
+
+-- name: ListEntry :many
+SELECT
+    id,
+    account_id,
+    amount,
+    created_at
+FROM
+    entries
+ORDER
+    BY id
+LIMIT
+    $1
+OFFSET
+    $2;
+
+-- name: UpdateEntry :one
+UPDATE
+    entries
+SET
+    amount = $2
+WHERE
+    id = $1 RETURNING *;
+
+-- name: DeleteEntry :exec
+DELETE FROM entries WHERE id = $1;

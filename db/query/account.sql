@@ -41,12 +41,14 @@ SELECT
     created_at
 FROM
      accounts
+WHERE
+    owner = $1
 ORDER
     BY id
 LIMIT
-    $1
+    $2
 OFFSET
-    $2;
+    $3;
 
 -- name: UpdateAccount :one
 UPDATE
